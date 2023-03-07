@@ -15,7 +15,7 @@ function App() {
   return (
     <ChakraProvider theme={extendTheme(config)}>
     <AssetsProvider>
-      <Box px="auto">
+      <Box px="auto" pt={14}>
         <Navbar />
         <Box
           display="flex"

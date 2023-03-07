@@ -11,10 +11,10 @@ const Navbar = () => {
     return (
         <HStack 
             justifyContent="space-between"
-            position={hasScrolled ? "fixed" : "relative"}
+            position="fixed"
             w="100%"
             top={0}
-            p={2}
+            p={hasScrolled ? 2 : 0}
             bg={"Window"}
             zIndex={10}
             transitionDuration="200ms"

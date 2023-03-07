@@ -1,6 +1,6 @@
 import { ReactSVG } from "react-svg"
 import styled from "@emotion/styled"
-import { useTheme } from "@chakra-ui/react"
+import { useTheme, useColorModeValue } from '@chakra-ui/react';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
     src: string,
@@ -24,11 +24,15 @@ const Icon = ({
 
     const  { __cssMap } = useTheme()
 
+    const activeColor = useColorModeValue(__cssMap["colors.blue.500"].value, __cssMap["colors.blue.200"].value)
+    const inactiveColor = useColorModeValue(__cssMap["colors.gray.700"].value,
+    __cssMap["colors.gray.100"].value)
+
     return (
         <Wrapper
             color={active
-                ? __cssMap["colors.blue.500"].value
-                : __cssMap["colors.gray.700"].value
+                ? activeColor
+                : inactiveColor
             }
             {...props}
         >

@@ -1,4 +1,4 @@
-import { Heading, StackDivider, VStack, HStack } from "@chakra-ui/react"
+import { Heading, StackDivider, VStack, HStack, useColorModeValue } from "@chakra-ui/react"
 
 
 import Sound from "./Sound"
@@ -17,6 +17,8 @@ const Card = ({
 
     const { sounds, icons } = useAssets()
 
+    const gray = useColorModeValue("gray.200", "gray.700")
+
     return (
         <VStack 
             alignItems="flex-start"
@@ -34,14 +36,15 @@ const Card = ({
                 spacing={4}
                 py={3}
                 align="stretch"
-                backgroundColor="whiteAlpha.800"
                 borderRadius="lg"
                 border="1px"
+                borderColor={gray}
                 shadow="lg"
                 w="100%"
             >
                 {(Object.keys(sounds[category]) as (SoundType | IconType)[]).map((name, i) => (
                     <Sound 
+                        key={i}
                         // @ts-ignore
                         icon={icons[category][name]}
                         // @ts-ignore
