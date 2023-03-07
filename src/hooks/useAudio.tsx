@@ -1,33 +1,31 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react";
 
 export default function useAudio(src: string) {
-    const audio = useMemo(() => (
-        new Audio(src)
-    ), [src])
-    
-    audio.loop = true
+  const audio = useMemo(() => new Audio(src), [src]);
 
-    const [ volume, setVolume ] = useState(0)
+  audio.loop = true;
 
-    const handleChangeVolume = (newVolume: number) => {
-        setVolume(newVolume)
+  const [volume, setVolume] = useState(0);
+
+  const handleChangeVolume = (newVolume: number) => {
+    setVolume(newVolume);
+  };
+
+  useEffect(() => {
+    audio.volume = volume / 100;
+
+    if (volume > 0) {
+      audio.play();
+    } else {
+      audio.pause();
     }
 
-    useEffect(() => {
-        audio.volume = volume / 100
+    return () => audio.pause();
+  }, [volume]);
 
-        if (volume > 0) {
-            audio.play()
-        } else {
-            audio.pause()
-        }
-
-        return () => audio.pause()
-    }, [volume])
-
-    return {
-        audio: audio,
-        volume: volume,
-        changeVolume: handleChangeVolume
-    } as const
+  return {
+    audio: audio,
+    volume: volume,
+    changeVolume: handleChangeVolume,
+  } as const;
 }
