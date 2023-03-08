@@ -9,17 +9,20 @@ import {
 import Sound from "./Sound";
 
 import useAssets from "../hooks/useAssets";
+import { categories } from "../utils/categorize";
 import transformName from "../utils/transformName";
-import type { IconType, SoundType, SoundsCategory } from "../types";
+import type { Categories, IconType, SoundType } from "../types";
 
 export interface Props {
-  category: SoundsCategory;
+  category: Categories;
 }
 
 const Card = ({ category }: Props) => {
   const { sounds, icons } = useAssets();
 
-  const gray = useColorModeValue("gray.200", "gray.700");
+  const cardBackgroundColor = useColorModeValue("white", "#363636")
+  const cardBorderColor = useColorModeValue("gray.200", "gray.800")
+  const cardDividerColor = useColorModeValue("gray.200", "gray.600")
 
   return (
     <VStack alignItems="flex-start" m={8} w={500}>
@@ -27,28 +30,25 @@ const Card = ({ category }: Props) => {
         {transformName(category)}
       </Heading>
       <VStack
-        divider={<StackDivider />}
+        divider={<StackDivider borderColor={cardDividerColor} />}
         spacing={4}
         py={3}
         align="stretch"
         borderRadius="lg"
         border="1px"
-        borderColor={gray}
+        borderColor={cardBorderColor}
         shadow="lg"
         w="100%"
+        bgColor={cardBackgroundColor}
       >
-        {(Object.keys(sounds[category]) as (SoundType | IconType)[]).map(
-          (name, i) => (
-            <Sound
-              key={i}
-              // @ts-ignore
-              icon={icons[category][name]}
-              // @ts-ignore
-              sound={sounds[category][name]}
-              name={name}
-            />
-          )
-        )}
+        {(categories[category] as SoundType[]).map((name, i)=> (
+          <Sound 
+            key={i}
+            name={name}
+            icon={icons[name]}
+            sound={sounds[name]}
+          />
+        ))}
       </VStack>
     </VStack>
   );

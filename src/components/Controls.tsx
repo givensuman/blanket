@@ -1,23 +1,29 @@
-import { Icon, IconButton, HStack } from "@chakra-ui/react";
+import { IconButton, HStack } from "@chakra-ui/react";
 import type { StackProps } from "@chakra-ui/react";
-import {
-  SpeakerSimpleHigh,
-  SpeakerSimpleLow,
-  SpeakerSimpleX,
-  Pause,
-  Play,
-  List,
-} from "phosphor-react";
+import { Pause, Play, List } from "phosphor-react";
 
 import Menu from "./Menu";
 
 import useHasScrolled from "../hooks/useHasScrolled";
-import { useMemo } from "react";
+import useAudio from "../hooks/useAudio";
 
 interface Props extends StackProps {}
 
 const Controls = ({ ...props }: Props) => {
   const hasScrolled = useHasScrolled();
+
+  const { pauseAll, playAll, isPaused } = useAudio()
+
+  const iconProps = {
+    weight: "fill",
+    size: hasScrolled ? 24 : 32
+  } as const
+
+  const pausePlayIcon = isPaused
+    ? <Play {...iconProps} />
+    : <Pause {...iconProps} />
+
+  console.log(isPaused)
 
   return (
     <HStack pr={4} spacing={4} {...props}>
@@ -25,13 +31,14 @@ const Controls = ({ ...props }: Props) => {
         aria-label="Pause/play audio"
         variant="ghost"
         p={2}
-        icon={<Pause weight="fill" size={hasScrolled ? 24 : 32} />}
-      />
-      <IconButton
-        aria-label="Change volume"
-        variant="ghost"
-        p={2}
-        icon={<SpeakerSimpleHigh weight="fill" size={hasScrolled ? 24 : 32} />}
+        icon={pausePlayIcon}
+        onClick={() => {
+          if (isPaused) {
+            playAll()
+          } else {
+            pauseAll()
+          }
+        }}
       />
       <Menu
         aria-label="Open/close menu"

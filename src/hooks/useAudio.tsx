@@ -1,31 +1,51 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react"
 
-export default function useAudio(src: string) {
-  const audio = useMemo(() => new Audio(src), [src]);
+import sounds from "../assets/sounds"
+import type { SoundType } from "../types"  
 
-  audio.loop = true;
+const audio: {
+    [key: string]: HTMLAudioElement,
+  } = {};
 
-  const [volume, setVolume] = useState(0);
+(Object.keys(sounds) as SoundType[]).forEach((sound: SoundType) => {
+  const player = new Audio(sounds[sound])
 
-  const handleChangeVolume = (newVolume: number) => {
-    setVolume(newVolume);
-  };
+  player.loop = true
+  
+  audio[sound] = player
+})
 
-  useEffect(() => {
-    audio.volume = volume / 100;
+export default function useAudio(name?: SoundType) {
+  const [ isPaused, setIsPaused ] = useState(false)
 
-    if (volume > 0) {
-      audio.play();
-    } else {
-      audio.pause();
+  const pauseAll = () => {
+    Object.values(audio).forEach(entry => {
+      entry.pause()
+    })
+    setIsPaused(true)
+  }
+
+  const playAll = () => {
+    Object.values(audio).forEach(entry => {
+      if (entry.volume > 0) {
+        entry.play()
+      }
+    })
+    setIsPaused(false)
+  }
+
+  if (name) {
+    return {
+      audio: audio[name],
+      pauseAll: pauseAll,
+      playAll: playAll,
+      isPaused: isPaused
     }
-
-    return () => audio.pause();
-  }, [volume]);
+  }
 
   return {
-    audio: audio,
-    volume: volume,
-    changeVolume: handleChangeVolume,
-  } as const;
+    pauseAll: pauseAll,
+    playAll: playAll,
+    isPaused: isPaused
+  }
 }

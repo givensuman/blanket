@@ -14,28 +14,20 @@ import white_noise from "./white-noise.ogg";
 import wind from "./wind.ogg";
 
 export const sounds = {
-  nature: {
-    rain: rain,
-    storm: storm,
-    wind: wind,
-    waves: waves,
-    stream: stream,
-    birds: birds,
-    summer_night: summer_night,
-  },
-  travel: {
-    train: train,
-    boat: boat,
-    city: city,
-  },
-  interiors: {
-    coffee_shop: coffee_shop,
-    fireplace: fireplace,
-  },
-  noise: {
-    white_noise: white_noise,
-    pink_noise: pink_noise,
-  },
+  rain: rain,
+  storm: storm,
+  wind: wind,
+  waves: waves,
+  stream: stream,
+  birds: birds,
+  summer_night: summer_night,
+  train: train,
+  boat: boat,
+  city: city,
+  coffee_shop: coffee_shop,
+  fireplace: fireplace,
+  white_noise: white_noise,
+  pink_noise: pink_noise,
 };
 
 export default sounds;
