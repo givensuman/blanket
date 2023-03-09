@@ -26,7 +26,7 @@ const Navbar = () => {
       top={0}
       display="flex"
       shadow={hasScrolled ? "lg" : "none"}
-      backgroundColor={isDark ? "#242424" : "white"}
+      backgroundColor={isDark ? "#242424" : "fafafa"}
       zIndex={10}
       w="100%"
     >
