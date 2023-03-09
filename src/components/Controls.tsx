@@ -81,6 +81,7 @@ const Controls = ({ ...props }: Props) => {
               min={0}
               max={1}
               step={0.01}
+              defaultValue={1}
               onChange={changeGlobalVolume}
               orientation="vertical"
               neverDisabled
