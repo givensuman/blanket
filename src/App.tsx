@@ -12,7 +12,7 @@ const config = {
   styles: {
     global: (props: StyleFunctionProps) => ({
       body: {
-        bg: mode("#fafafa", "#242424")(props),
+        bg: mode("#fff", "#242424")(props),
       },
     }),
   },

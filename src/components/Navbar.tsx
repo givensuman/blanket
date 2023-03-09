@@ -11,12 +11,15 @@ import {
 import Controls from "./Controls";
 
 import useHasScrolled from "../hooks/useHasScrolled";
+import { useColorModeValue } from '@chakra-ui/react';
 
 const Navbar = () => {
   const hasScrolled = useHasScrolled();
 
   const { colorMode } = useColorMode();
   const isDark = colorMode === "dark";
+
+  const navbarBackgroundColor = useColorModeValue("chakra-body-bg", "#242424")
 
   const [isSmallScreen] = useMediaQuery("(max-width: 400px)");
 
@@ -26,7 +29,7 @@ const Navbar = () => {
       top={0}
       display="flex"
       shadow={hasScrolled ? "lg" : "none"}
-      backgroundColor={isDark ? "#242424" : "fafafa"}
+      backgroundColor={navbarBackgroundColor}
       zIndex={10}
       w="100%"
     >
