@@ -10,16 +10,17 @@ import { useColorModeValue } from '@chakra-ui/react';
 
 export interface Props extends SliderProps {
   label?: string;
+  neverDisabled?: boolean;
 }
 
-const Volume = ({ label, ...props }: Props) => {
+const Volume = ({ label, neverDisabled, ...props }: Props) => {
   const { isPaused } = useAudio()
 
   const thumbBackgroundColor = useColorModeValue("white", "gray.200")
   const thumbBorderColor = useColorModeValue("gray.300", "gray.400")
 
   return (
-    <Slider aria-label={label} defaultValue={0} min={0} max={100} disabled={isPaused} {...props}>
+    <Slider aria-label={label} defaultValue={0} min={0} max={100} disabled={neverDisabled ? false : isPaused} {...props}>
       <SliderTrack>
         <SliderFilledTrack />
       </SliderTrack>

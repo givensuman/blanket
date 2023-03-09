@@ -1,4 +1,4 @@
-import { HStack, Image, Heading, useColorModeValue } from '@chakra-ui/react';
+import { HStack, Image, Heading, useColorMode } from '@chakra-ui/react';
 
 import Controls from "./Controls";
 
@@ -7,7 +7,8 @@ import useHasScrolled from "../hooks/useHasScrolled";
 const Navbar = () => {
   const hasScrolled = useHasScrolled();
 
-  const navbarBackgroundColor = useColorModeValue("fafafa", "242424")
+  const { colorMode } = useColorMode()
+  const isDark = colorMode === "dark"
 
   return (
     <HStack
@@ -17,7 +18,7 @@ const Navbar = () => {
       top={0}
       p={hasScrolled ? 2 : 0}
       zIndex={10}
-      backgroundColor={navbarBackgroundColor}
+      backgroundColor={isDark ? "#242424" : "white"}
       opacity={1}
       transitionDuration="200ms"
       shadow={hasScrolled ? "lg" : "none"}

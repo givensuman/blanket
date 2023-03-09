@@ -17,7 +17,8 @@ export interface Props extends StackProps {
 }
 
 const Sound = ({ icon, sound, name, ...props }: Props) => {
-  const { audio, isPaused } = useAudio(name)
+  const { getAudio, globalVolume } = useAudio()
+  const audio = getAudio(name)
 
   const [ volume, setVolume ] = useState(0)
 
@@ -25,13 +26,13 @@ const Sound = ({ icon, sound, name, ...props }: Props) => {
     setVolume(val)
   }
 
-  audio!.volume = volume / 100
+  audio.volume = globalVolume * volume / 100
 
   useEffect(() => {
     if (volume > 0) {
-      audio!.play()
+      audio.play()
     } else {
-      audio!.pause()
+      audio.pause()
     }
   }, [volume])
 
@@ -50,8 +51,8 @@ const Sound = ({ icon, sound, name, ...props }: Props) => {
       {volume > 0 && (
         <motion.div
           key={name}
-          initial={{ x: 2 }}
-          animate={{ x: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           style={{
             position: "absolute",
@@ -63,7 +64,7 @@ const Sound = ({ icon, sound, name, ...props }: Props) => {
             height={4}
             width={4}
             borderRadius="full"
-            bgColor={isPaused ? "gray.200" : badgeColor}
+            bgColor={badgeColor}
             zIndex={1}
           />
         </motion.div>

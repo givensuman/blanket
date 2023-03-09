@@ -1,22 +1,62 @@
-import { useState } from "react"
+import { useState, createContext, useContext, useMemo } from "react"
 
 import sounds from "../assets/sounds"
 import type { SoundType } from "../types"  
 
-const audio: {
-    [key: string]: HTMLAudioElement,
-  } = {};
+const AudioContext = createContext<{
+  audio: { [key: string]: HTMLAudioElement };
+  getAudio: (name: SoundType) => HTMLAudioElement;
+  globalVolume: number;
+  changeGlobalVolume: (val: number) => void;
+  isPaused: boolean;
+  changeIsPaused: (val?: boolean) => void;
+  pauseAll: () => void;
+  playAll: () => void;
+} | null>(null)
 
-(Object.keys(sounds) as SoundType[]).forEach((sound: SoundType) => {
-  const player = new Audio(sounds[sound])
+export interface Props {
+  children?: React.ReactNode
+}
 
-  player.loop = true
-  
-  audio[sound] = player
-})
+export const AudioProvider = ({
+  children
+}: Props) => {
 
-export default function useAudio(name?: SoundType) {
+  const audio = useMemo(() => {
+    let map: {
+      [key: string]: HTMLAudioElement
+    } = {};
+
+    (Object.keys(sounds) as SoundType[]).forEach((sound: SoundType) => {
+      const player = new Audio(sounds[sound])
+    
+      player.loop = true
+      
+      map[sound] = player
+    })
+
+    return map
+  }, [sounds])
+
+  const getAudio = (name: SoundType) => {
+    return audio[name]
+  }
+
+  const [ globalVolume, setGlobalVolume ] = useState(1)
+
+  const changeGlobalVolume = (val: number) => {
+    setGlobalVolume(val)
+  }
+
   const [ isPaused, setIsPaused ] = useState(false)
+
+  const changeIsPaused = (val?: boolean) => {
+    if (val) {
+      setIsPaused(val)
+    } else {
+      setIsPaused(state => !state)
+    }
+  }
 
   const pauseAll = () => {
     Object.values(audio).forEach(entry => {
@@ -34,18 +74,28 @@ export default function useAudio(name?: SoundType) {
     setIsPaused(false)
   }
 
-  if (name) {
-    return {
-      audio: audio[name],
+  return (
+    <AudioContext.Provider value={{
+      audio: audio,
+      getAudio: getAudio,
+      globalVolume: globalVolume,
+      changeGlobalVolume: changeGlobalVolume,
+      isPaused: isPaused,
+      changeIsPaused: changeIsPaused,
       pauseAll: pauseAll,
-      playAll: playAll,
-      isPaused: isPaused
-    }
-  }
+      playAll: playAll
+    }}>
+      {children}
+    </AudioContext.Provider>
+  )
+}
 
-  return {
-    pauseAll: pauseAll,
-    playAll: playAll,
-    isPaused: isPaused
+export default function useAudio() {
+  const ctx = useContext(AudioContext) 
+
+  if (!ctx) {
+    throw new Error("No context for <AudioProvider> found")
+  } else {
+    return ctx
   }
 }

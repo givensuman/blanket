@@ -32,7 +32,7 @@ export default function useAssets() {
   const ctx = useContext(AssetsContext);
 
   if (!ctx) {
-    throw new Error("AssetsContext not found. Are you using <AssetsProvider>?");
+    throw new Error("No context for <AssetsProvider> found");
   } else {
     return ctx;
   }
