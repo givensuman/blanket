@@ -1,4 +1,4 @@
-import { HStack, Image, Heading, useColorMode } from '@chakra-ui/react';
+import { Stack, HStack, Image, Heading, useColorMode, Box, useMediaQuery } from '@chakra-ui/react';
 
 import Controls from "./Controls";
 
@@ -10,36 +10,46 @@ const Navbar = () => {
   const { colorMode } = useColorMode()
   const isDark = colorMode === "dark"
 
+  const [ isSmallScreen ] = useMediaQuery("(max-width: 400px)")
+
   return (
-    <HStack
-      justifyContent="space-between"
+    <Box   
       position="fixed"
-      w="100%"
       top={0}
-      p={hasScrolled ? 2 : 0}
-      zIndex={10}
-      backgroundColor={isDark ? "#242424" : "white"}
-      opacity={1}
-      transitionDuration="200ms"
+      display="flex" 
       shadow={hasScrolled ? "lg" : "none"}
+      backgroundColor={isDark ? "#242424" : "white"}
+      zIndex={10}
+      w="100%"
     >
-      <HStack>
-        <Image
-          src="/logo.svg"
-          alt="logo"
-          height={hasScrolled ? "12" : "24"}
-          transitionDuration="200ms"
-        />
-        <Heading
-          size={hasScrolled ? "lg" : "2xl"}
-          transitionDuration="200ms"
-          userSelect="none"
-        >
-          Blanket
-        </Heading>
-      </HStack>
-      <Controls />
-    </HStack>
+      <Stack
+        p={hasScrolled ? 2 : [1, 0]}
+        transitionDuration="200ms"
+        justifyContent="space-between" 
+        w="100%"
+        maxW="6xl"
+        mx="auto"
+        direction={isSmallScreen ? "column" : "row"}
+        alignItems="center"
+      >
+        <HStack>
+          <Image
+            src="/logo.svg"
+            alt="logo"
+            height={hasScrolled ? [8, 12] : [12, 24]}
+            transitionDuration="200ms"
+          />
+            <Heading
+              size={hasScrolled ? "lg" : ["xl", "2xl"]}
+              transitionDuration="200ms"
+              userSelect="none"
+            >
+              Blanket
+            </Heading>
+        </HStack>
+        <Controls />
+      </Stack>
+    </Box>
   );
 };
 

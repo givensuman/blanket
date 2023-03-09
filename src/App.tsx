@@ -1,9 +1,7 @@
-import { extendTheme, ChakraProvider } from "@chakra-ui/react";
+import { extendTheme, ChakraProvider, Center, VStack } from "@chakra-ui/react";
 import type { StyleFunctionProps } from "@chakra-ui/styled-system"
 import { mode } from "@chakra-ui/theme-tools"
-import { AssetsProvider } from "./hooks/useAssets";
 import { AudioProvider } from "./hooks/useAudio"
-import { Box } from "@chakra-ui/react";
 
 import Card from "./components/Card";
 import Navbar from "./components/Navbar";
@@ -25,25 +23,19 @@ const config = {
 
 function App() {
   return (
-    <>
     <ChakraProvider theme={extendTheme(config)}>
-      <AssetsProvider>
         <AudioProvider>
-        <Box w="100%" maxW="1000px">
           <Navbar />
-          <Box display="flex" justifyContent="center" flexWrap="wrap" mt="15%" w="100%">
-            <Card category="nature" />
-            <div>
+          <Center mt={32} alignItems={["initial", "flex-start"]} flexWrap="wrap" maxW="100%" overflowX="hidden" pb={12}>
+            <Card category="nature"/>
+            <VStack>
               <Card category="travel" />
               <Card category="interiors" />
               <Card category="noise" />
-            </div>
-          </Box>
-        </Box>
+            </VStack>
+          </Center>
         </AudioProvider>
-      </AssetsProvider>
     </ChakraProvider>
-    </>
   );
 }
 

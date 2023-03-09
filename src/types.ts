@@ -14,4 +14,6 @@ export type IconType = keyof Icons;
 export type Sounds = typeof sounds;
 export type SoundType = keyof Sounds;
 
+export type Name = Omit<IconType | SoundType, "sound_wave">
+
 export type Categories = keyof typeof categories

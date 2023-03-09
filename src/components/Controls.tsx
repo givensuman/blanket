@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { IconButton, HStack, Popover, PopoverTrigger, PopoverContent, PopoverBody, useDisclosure, useColorModeValue } from "@chakra-ui/react";
+import { IconButton, HStack, Popover, PopoverTrigger, PopoverContent, PopoverBody, useDisclosure, useColorModeValue, useTheme } from "@chakra-ui/react";
 import type { StackProps } from "@chakra-ui/react";
 import { Pause, Play, List, SpeakerSimpleX, SpeakerSimpleLow, SpeakerSimpleHigh } from "phosphor-react";
 
@@ -18,11 +18,15 @@ const Controls = ({ ...props }: Props) => {
 
   const { onOpen, onClose, isOpen } = useDisclosure()
 
+  const { __cssMap } = useTheme()
+  const iconColor = useColorModeValue(__cssMap["colors.gray.600"].value, __cssMap["colors.gray.300"].value)
+
   const iconProps = {
     weight: "fill",
     size: hasScrolled ? 24 : 32,
     style: {
-      transitionDuration: "200ms"
+      transitionDuration: "200ms",
+      color: iconColor
     }
   } as const
 
@@ -88,7 +92,7 @@ const Controls = ({ ...props }: Props) => {
         aria-label="Open/close menu"
         variant="ghost"
         p={2}
-        icon={<List weight="fill" size={hasScrolled ? 24 : 32} />}
+        icon={<List {...iconProps} />}
       />
     </HStack>
   );

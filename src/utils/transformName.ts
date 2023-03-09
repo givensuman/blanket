@@ -1,7 +1,7 @@
-import type { Icon, Sound, IconsCategory, SoundsCategory } from "../types";
+import type { Categories, IconType, SoundType } from "../types";
 
 export default function transformName(
-  name: Icon | Sound | IconsCategory | SoundsCategory
+  name: IconType | SoundType | Categories
 ): string {
   return name
     .split("_")

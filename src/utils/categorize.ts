@@ -1,4 +1,4 @@
-import { IconType, SoundType } from "../types";
+import { Name } from "../types";
 
 export const categories = {
     nature: [
@@ -25,9 +25,9 @@ export const categories = {
     ]
 }
 
-export default function categorize(name: SoundType | IconType): string | boolean {
+export default function categorize(name: Name): string | boolean {
     Object.entries(categories).forEach(([key, value]) => {
-        if (value.includes(name)) {
+        if (value.includes(name as string)) {
             return key
         }
     })
