@@ -1,6 +1,6 @@
 import icons from "./assets/icons";
 import sounds from "./assets/sounds";
-import { categories } from './utils/categorize';
+import { categories } from "./utils/categorize";
 
 export type UnionToIntersection<Union> = (
   Union extends unknown ? (_: Union) => void : never
@@ -14,6 +14,6 @@ export type IconType = keyof Icons;
 export type Sounds = typeof sounds;
 export type SoundType = keyof Sounds;
 
-export type Name = Omit<IconType | SoundType, "sound_wave">
+export type Name = Omit<IconType | SoundType, "sound_wave">;
 
-export type Categories = keyof typeof categories
+export type Categories = keyof typeof categories;

@@ -1,7 +1,24 @@
-import { useEffect } from "react"
-import { IconButton, HStack, Popover, PopoverTrigger, PopoverContent, PopoverBody, useDisclosure, useColorModeValue, useTheme } from "@chakra-ui/react";
+import { useEffect } from "react";
+import {
+  IconButton,
+  HStack,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+  useDisclosure,
+  useColorModeValue,
+  useTheme,
+} from "@chakra-ui/react";
 import type { StackProps } from "@chakra-ui/react";
-import { Pause, Play, List, SpeakerSimpleX, SpeakerSimpleLow, SpeakerSimpleHigh } from "phosphor-react";
+import {
+  Pause,
+  Play,
+  List,
+  SpeakerSimpleX,
+  SpeakerSimpleLow,
+  SpeakerSimpleHigh,
+} from "phosphor-react";
 
 import Menu from "./Menu";
 
@@ -14,37 +31,46 @@ interface Props extends StackProps {}
 const Controls = ({ ...props }: Props) => {
   const hasScrolled = useHasScrolled();
 
-  const { pauseAll, playAll, isPaused, globalVolume, changeGlobalVolume } = useAudio()
+  const { pauseAll, playAll, isPaused, globalVolume, changeGlobalVolume } =
+    useAudio();
 
-  const { onOpen, onClose, isOpen } = useDisclosure()
+  const { onOpen, onClose, isOpen } = useDisclosure();
 
-  const { __cssMap } = useTheme()
-  const iconColor = useColorModeValue(__cssMap["colors.gray.600"].value, __cssMap["colors.gray.300"].value)
+  const { __cssMap } = useTheme();
+  const iconColor = useColorModeValue(
+    __cssMap["colors.gray.600"].value,
+    __cssMap["colors.gray.300"].value
+  );
 
   const iconProps = {
     weight: "fill",
     size: hasScrolled ? 24 : 32,
     style: {
       transitionDuration: "200ms",
-      color: iconColor
-    }
-  } as const
+      color: iconColor,
+    },
+  } as const;
 
-  const pausePlayIcon = isPaused
-    ? <Play {...iconProps} />
-    : <Pause {...iconProps} />
+  const pausePlayIcon = isPaused ? (
+    <Play {...iconProps} />
+  ) : (
+    <Pause {...iconProps} />
+  );
 
-  const volumeIcon = globalVolume === 0
-    ? <SpeakerSimpleX {...iconProps} />
-    : globalVolume < 0.5 
-      ? <SpeakerSimpleLow {...iconProps} />
-      : <SpeakerSimpleHigh {...iconProps} />
+  const volumeIcon =
+    globalVolume === 0 ? (
+      <SpeakerSimpleX {...iconProps} />
+    ) : globalVolume < 0.5 ? (
+      <SpeakerSimpleLow {...iconProps} />
+    ) : (
+      <SpeakerSimpleHigh {...iconProps} />
+    );
 
   useEffect(() => {
-    onClose()
-  }, [hasScrolled])
+    onClose();
+  }, [hasScrolled]);
 
-  const popoverBackgroundColor = useColorModeValue("white", "#363636")
+  const popoverBackgroundColor = useColorModeValue("white", "#363636");
 
   return (
     <HStack pr={4} spacing={4} {...props}>
@@ -55,17 +81,13 @@ const Controls = ({ ...props }: Props) => {
         icon={pausePlayIcon}
         onClick={() => {
           if (isPaused) {
-            playAll()
+            playAll();
           } else {
-            pauseAll()
+            pauseAll();
           }
         }}
       />
-      <Popover
-        isOpen={isOpen}
-        onClose={onClose}
-        onOpen={onOpen}
-      >
+      <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
         <PopoverTrigger>
           <IconButton
             aria-label="Change volume"
@@ -74,9 +96,15 @@ const Controls = ({ ...props }: Props) => {
             icon={volumeIcon}
           />
         </PopoverTrigger>
-        <PopoverContent maxW={10} display="flex" alignItems="center" p={4} backgroundColor={popoverBackgroundColor}>
+        <PopoverContent
+          maxW={10}
+          display="flex"
+          alignItems="center"
+          p={4}
+          backgroundColor={popoverBackgroundColor}
+        >
           <PopoverBody h={40}>
-            <Volume 
+            <Volume
               label="Global volume"
               min={0}
               max={1}

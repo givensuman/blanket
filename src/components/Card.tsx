@@ -19,12 +19,12 @@ export interface Props {
 }
 
 const Card = ({ category }: Props) => {
-  const cardBackgroundColor = useColorModeValue("white", "#363636")
-  const cardBorderColor = useColorModeValue("gray.200", "gray.800")
-  const cardDividerColor = useColorModeValue("gray.200", "gray.600")
+  const cardBackgroundColor = useColorModeValue("white", "#363636");
+  const cardBorderColor = useColorModeValue("gray.200", "gray.800");
+  const cardDividerColor = useColorModeValue("gray.200", "gray.600");
 
   return (
-    <VStack alignItems="flex-start" m={8} w={500}maxW="85vw">
+    <VStack alignItems="flex-start" m={8} w={500} maxW="85vw">
       <Heading size="md" fontWeight="semibold">
         {transformName(category)}
       </Heading>
@@ -40,13 +40,8 @@ const Card = ({ category }: Props) => {
         w="100%"
         bgColor={cardBackgroundColor}
       >
-        {(categories[category] as SoundType[]).map((name, i)=> (
-          <Sound 
-            key={i}
-            name={name}
-            icon={icons[name]}
-            sound={sounds[name]}
-          />
+        {(categories[category] as SoundType[]).map((name, i) => (
+          <Sound key={i} name={name} icon={icons[name]} sound={sounds[name]} />
         ))}
       </VStack>
     </VStack>
