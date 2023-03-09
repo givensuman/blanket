@@ -47,7 +47,10 @@ const Navbar = () => {
               Blanket
             </Heading>
         </HStack>
-        <Controls />
+        <Controls 
+          position="relative"
+          left={isSmallScreen ? 4 : 0}
+        />
       </Stack>
     </Box>
   );
