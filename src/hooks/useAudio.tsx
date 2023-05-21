@@ -7,6 +7,7 @@ const AudioContext =
   createContext<{
     audio: { [key: string]: HTMLAudioElement };
     getAudio: (name: SoundType) => HTMLAudioElement;
+    resetAudio: (name: SoundType) => void;
     globalVolume: number;
     changeGlobalVolume: (val: number) => void;
     isPaused: boolean;
@@ -39,6 +40,12 @@ export const AudioProvider = ({ children }: Props) => {
   const getAudio = (name: SoundType) => {
     return audio[name];
   };
+
+  const resetAudio = (name: SoundType) => {
+    audio[name].volume = 0;
+    audio[name].pause()
+    audio[name].currentTime = 0;
+  }
 
   const [globalVolume, setGlobalVolume] = useState(1);
 
@@ -75,14 +82,15 @@ export const AudioProvider = ({ children }: Props) => {
   return (
     <AudioContext.Provider
       value={{
-        audio: audio,
-        getAudio: getAudio,
-        globalVolume: globalVolume,
-        changeGlobalVolume: changeGlobalVolume,
-        isPaused: isPaused,
-        changeIsPaused: changeIsPaused,
-        pauseAll: pauseAll,
-        playAll: playAll,
+        audio,
+        getAudio,
+        resetAudio,
+        globalVolume,
+        changeGlobalVolume,
+        isPaused,
+        changeIsPaused,
+        pauseAll,
+        playAll
       }}
     >
       {children}

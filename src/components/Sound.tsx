@@ -3,6 +3,7 @@ import {
   HStack,
   VStack,
   Badge,
+  Skeleton,
   useColorModeValue,
 } from "@chakra-ui/react";
 import type { StackProps } from "@chakra-ui/react";
@@ -23,10 +24,12 @@ export interface Props extends StackProps {
 }
 
 const Sound = ({ icon, sound, name, ...props }: Props) => {
-  const { getAudio, globalVolume } = useAudio();
+  const { getAudio, resetAudio, globalVolume } = useAudio();
   const audio = getAudio(name);
 
   const [volume, setVolume] = useState(0);
+  const [isLoading, setIsLoading] = useState(true)
+  const endLoading = () => setIsLoading(false)
 
   const changeVolume = (val: number) => {
     setVolume(val);
@@ -42,48 +45,59 @@ const Sound = ({ icon, sound, name, ...props }: Props) => {
     }
   }, [volume]);
 
+  useEffect(() => {
+    audio.addEventListener('canplaythrough', endLoading)
+
+    return () => {
+      audio.removeEventListener('canplaythrough', endLoading)
+      resetAudio(name)
+    }
+  }, [])
+
   const badgeColor = useColorModeValue("blue.500", "blue.200");
 
   return (
-    <HStack
-      spacing={5}
-      py={2}
-      px={6}
-      alignItems="center"
-      position="relative"
-      {...props}
-    >
-      <Icon src={icon} active={volume > 0} />
-      <VStack alignItems="flex-start" w="100%">
-        <Heading fontWeight="normal" size="sm">
-          {transformName(name)}
-        </Heading>
-        <Volume label={"Volume controls for " + name} onChange={changeVolume} />
-      </VStack>
-      <AnimatePresence>
-        {volume > 0 && (
-          <motion.div
-            key={name}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{
-              position: "absolute",
-              left: -28,
-            }}
-          >
-            <Badge
-              colorScheme="blue"
-              height={4}
-              width={4}
-              borderRadius="full"
-              bgColor={badgeColor}
-              zIndex={1}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </HStack>
+    <Skeleton isLoaded={!isLoading}>
+      <HStack
+        spacing={5}
+        py={2}
+        px={6}
+        alignItems="center"
+        position="relative"
+        {...props}
+      >
+        {!isLoading && <Icon src={icon} active={volume > 0} />}
+        <VStack alignItems="flex-start" w="100%">
+          <Heading fontWeight="normal" size="sm">
+            {transformName(name)}
+          </Heading>
+          <Volume label={"Volume controls for " + name} onChange={changeVolume} />
+        </VStack>
+        <AnimatePresence>
+          {volume > 0 && (
+            <motion.div
+              key={name}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                position: "absolute",
+                left: -28,
+              }}
+            >
+              <Badge
+                colorScheme="blue"
+                height={4}
+                width={4}
+                borderRadius="full"
+                bgColor={badgeColor}
+                zIndex={1}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </HStack>
+    </Skeleton>
   );
 };
 

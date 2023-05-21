@@ -1,13 +1,14 @@
 import { ReactSVG } from "react-svg";
 import styled from "@emotion/styled";
-import { useTheme, useColorModeValue } from "@chakra-ui/react";
+import { Box, useTheme, useColorModeValue, BoxProps } from "@chakra-ui/react";
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  src: string;
+interface Props extends BoxProps {
+  color?: string;
+  src?: string;
   active?: boolean;
 }
 
-const Wrapper = styled.div<{ color: string }>`
+const Wrapper = styled(Box)<Props>`
   svg {
     path {
       transition: all 200ms;
@@ -16,7 +17,7 @@ const Wrapper = styled.div<{ color: string }>`
   }
 `;
 
-const Icon = ({ src, active = false, ...props }: Props) => {
+const Icon = ({ color, src, active = false, ...props }: Props) => {
   const { __cssMap } = useTheme();
 
   const activeColor = useColorModeValue(
@@ -30,7 +31,7 @@ const Icon = ({ src, active = false, ...props }: Props) => {
 
   return (
     <Wrapper color={active ? activeColor : inactiveColor} {...props}>
-      <ReactSVG src={src} />
+      <ReactSVG src={src as string} />
     </Wrapper>
   );
 };

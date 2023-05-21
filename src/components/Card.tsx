@@ -29,9 +29,7 @@ const Card = ({ category }: Props) => {
         {transformName(category)}
       </Heading>
       <VStack
-        divider={<StackDivider borderColor={cardDividerColor} />}
-        spacing={4}
-        py={3}
+        // divider={<StackDivider borderColor={cardDividerColor} />}
         align="stretch"
         borderRadius="lg"
         border="1px"
