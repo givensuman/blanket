@@ -17,6 +17,14 @@ const Wrapper = styled(Box)<Props>`
   }
 `;
 
+const Placeholder = styled(Box)`
+  height: 64px;
+  width: 64px;
+  background-color: #363636;
+  opacity: 0.5;
+  border-radius: 50%;
+`
+
 const Icon = ({ color, src, active = false, ...props }: Props) => {
   const { __cssMap } = useTheme();
 
@@ -31,7 +39,10 @@ const Icon = ({ color, src, active = false, ...props }: Props) => {
 
   return (
     <Wrapper color={active ? activeColor : inactiveColor} {...props}>
-      <ReactSVG src={src as string} />
+      <ReactSVG 
+        src={src as string} 
+        loading={Placeholder}
+      />
     </Wrapper>
   );
 };
