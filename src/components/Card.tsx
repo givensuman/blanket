@@ -33,6 +33,7 @@ const Card = ({ category }: Props) => {
         align="stretch"
         borderRadius="lg"
         border="1px"
+        spacing={0}
         borderColor={cardBorderColor}
         shadow="lg"
         w="100%"

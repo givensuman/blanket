@@ -60,7 +60,7 @@ const Sound = ({ icon, sound, name, ...props }: Props) => {
     <Skeleton isLoaded={!isLoading}>
       <HStack
         spacing={5}
-        py={2}
+        py={3}
         px={6}
         alignItems="center"
         position="relative"
