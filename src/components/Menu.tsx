@@ -105,9 +105,14 @@ const Menu = (props: Props) => {
               ChakraUI by Given Suman.
             </p>
             <p>
-              For information on sound licensing, go{" "}
+              For information on sound licensing, go
               <span>
-                <Link color={linkColor} href="#">
+                <Link 
+                  color={linkColor} 
+                  href="https://github.com/rafaelmardojai/blanket/blob/master/SOUNDS_LICENSING.md"
+                  isExternal
+                  ml={1}
+                >
                   here
                 </Link>
               </span>
@@ -117,12 +122,9 @@ const Menu = (props: Props) => {
           <ModalFooter>
             <Button
               variant="outline"
-              onClick={() =>
-                window.open(
-                  "https://github.com/rafaelmardojai/blanket",
-                  "_blank"
-                )
-              }
+              as={Link}
+              href="https://github.com/rafaelmardojai/blanket"
+              isExternal
               mr={3}
             >
               Get GNOME app
