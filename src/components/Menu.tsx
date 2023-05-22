@@ -18,6 +18,7 @@ import {
   useColorModeValue,
   useDisclosure,
   Link,
+  background,
 } from "@chakra-ui/react";
 import type { IconButtonProps, MenuItemProps } from "@chakra-ui/react";
 import { SunHorizon, MoonStars, GitBranch, Info } from "phosphor-react";
@@ -48,33 +49,49 @@ const Menu = (props: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const linkColor = useColorModeValue("blue.500", "blue.200");
+  const menuBackgroundColor = useColorModeValue("white", "#363636");
+  const altMenuBackgroundColor = useColorModeValue("gray.100", "#292929");
+
+  const backgroundColors = {
+    bgColor: menuBackgroundColor,
+    _hover: {
+      bgColor: altMenuBackgroundColor
+    }
+  }
 
   return (
     <>
       <_Menu>
         <MenuButton as={IconButton} {...props} />
-        <MenuList>
+        <MenuList bgColor={menuBackgroundColor}>
           <Item
             icon={colorMode === "light" ? <MoonStars /> : <SunHorizon />}
             label={`Switch to ${
               colorMode === "light" ? "dark mode" : "light mode"
             }`}
             onClick={toggleColorMode}
+            {...backgroundColors}
           />
-          <Item icon={<Info />} label="About this app" onClick={onOpen} />
+          <Item 
+            icon={<Info />} 
+            label="About this app" 
+            onClick={onOpen} 
+            {...backgroundColors}
+          />
           <Item
             icon={<GitBranch />}
             label="View codebase"
             onClick={() =>
               window.open("https://www.github.com/givensuman/blanket", "_blank")
             }
+            {...backgroundColors}
           />
         </MenuList>
       </_Menu>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bgColor={menuBackgroundColor}>
           <ModalHeader>About</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -98,19 +115,20 @@ const Menu = (props: Props) => {
             </p>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
             <Button
-              variant="ghost"
+              variant="outline"
               onClick={() =>
                 window.open(
                   "https://github.com/rafaelmardojai/blanket",
                   "_blank"
                 )
               }
+              mr={3}
             >
               Get GNOME app
+            </Button>
+            <Button colorScheme="blue" onClick={onClose}>
+              Close
             </Button>
           </ModalFooter>
         </ModalContent>
