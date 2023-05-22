@@ -1,6 +1,6 @@
 import { ReactSVG } from "react-svg";
 import styled from "@emotion/styled";
-import { Box, useTheme, useColorModeValue, BoxProps } from "@chakra-ui/react";
+import { Box, useTheme, useColorModeValue, BoxProps, SkeletonCircle } from "@chakra-ui/react";
 
 interface Props extends BoxProps {
   color?: string;
@@ -17,13 +17,7 @@ const Wrapper = styled(Box)<Props>`
   }
 `;
 
-const Placeholder = styled(Box)`
-  height: 64px;
-  width: 64px;
-  background-color: #363636;
-  opacity: 0.5;
-  border-radius: 50%;
-`
+const Placeholder = () => <SkeletonCircle h={64} w={64} />
 
 const Icon = ({ color, src, active = false, ...props }: Props) => {
   const { __cssMap } = useTheme();
