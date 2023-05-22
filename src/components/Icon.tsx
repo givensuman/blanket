@@ -17,7 +17,7 @@ const Wrapper = styled(Box)<Props>`
   }
 `;
 
-const Placeholder = () => <SkeletonCircle h={64} w={64} />
+const Placeholder = () => <SkeletonCircle h="64px" w="64px" />
 
 const Icon = ({ color, src, active = false, ...props }: Props) => {
   const { __cssMap } = useTheme();
