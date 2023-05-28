@@ -31,9 +31,9 @@ function App() {
           overflowX="hidden"
           pb={12}
         >
-          <Card category="nature" />
-          <VStack>
-            <Card category="travel" />
+          <Card category="nature" mb={8} />
+          <VStack spacing={8}>
+            <Card category="travel"/>
             <Card category="interiors" />
             <Card category="noise" />
           </VStack>
